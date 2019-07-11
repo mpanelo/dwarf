@@ -1,0 +1,7 @@
+lui $acc, 0b0000
+ori $acc, 0b0001
+lb $r0
+
+lui $acc, 0b0000
+ori $acc, 0b0010
+lb $r1

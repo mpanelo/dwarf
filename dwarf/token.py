@@ -2,10 +2,16 @@ LUI = 'LUI'
 ORI = 'ORI'
 LB  = 'LB'
 REGISTER = 'REGISTER'
-BINARY_LITERAL = 'BINARY_LITERAL'
+BINARY = 'BINARY'
 ILLEGAL = 'ILLEGAL'
+COMMA = 'COMMA'
 EOF = 'EOF'
 
+instructions = {
+	'lui': LUI,
+	'ori': ORI,
+	'lb': LB,
+}
 
 class Token(object):
 
@@ -17,8 +23,5 @@ class Token(object):
 		return "Token({}, {})".format(self.type, self.literal)
 
 
-InstructionType = {
-	'lui': LUI,
-	'ori': ORI,
-	'lb': LB,
-}
+def get_instruction(instr):
+	return instructions.get(instr, ILLEGAL)

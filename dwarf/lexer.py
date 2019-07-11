@@ -1,83 +1,54 @@
 from . import token
+from .file import File
 
 class Lexer(object):
-	
-	def __init__(self, filename):
-		with open(filename) as f:
-			self.source = f.read()
 
-		self.char = ''
-		self.readPosition = 0
-	
+	def __init__(self, file):
+		self.file = file
+
 	def tokenize(self):
 		tokens = []
 
-		while self.char != token.EOF:
-			tokens.append(self._nextToken())
+		while not self.file.is_closed():
+			token = self.next_token()
+			print(token)
+			tokens.append(token)
 
 		return tokens
 
-	def _nextToken(self):
-		self._skipWhitespace()
+	def next_token(self):
+		self.skip_whitespace()
 
-		if self._isRegister():
-			return self._registerToken()
-		elif self._isBinaryLiteral():
-			return self._binaryLiteralToken()
-		elif self._isEOF():
-			return token.Token(token.EOF)
+		if self.file.char() == '$':
+			tok = token.Token(token.REGISTER, self.read())
+		elif self.file.char() == '0' and self.file.peek_char() == 'b':
+			tok = token.Token(token.BINARY, self.read())
+		elif self.file.char() == ',':
+			tok = token.Token(token.COMMA, self.file.char())
+			self.file.read_char()
+		elif self.file.char() == File.EOF:
+			tok = token.Token(token.EOF, self.file.char())
+		elif self.file.char().isalpha():
+			tok = self.instruction_token()
 		else:
-			return self._instructionToken()
+			tok = token.Token(token.ILLEGAL, self.file.char())
+			self.file.read_char()
 
-	def _skipWhitespace(self):
-		while self._isWhitespace():
-			self._readChar()
+		return tok
 
-	def _isWhitespace(self):
-		return self.char.isspace() or self.char == ','
+	def skip_whitespace(self):
+		while self.file.char().isspace():
+			self.file.read_char()
 
-	def _isBinaryLiteral(self):
-		return self.char == '0' and self._peekChar() == 'b'
+	def instruction_token(self):
+		str = self.read()
+		instr = token.get_instruction(str)
+		return token.Token(instr, str)
 
-	def _isRegister(self):
-		return self.char == '$'
+	def read(self):
+		str = ''
 
-	def _isEOF(self):
-		return self.char == token.EOF
-
-	def _registerToken(self):
-		return token.Token(token.REGISTER, self._read())
-			
-	def _binaryLiteralToken(self):
-		return token.Token(token.BINARY_LITERAL, self._read())
-
-	def _instructionToken(self):
-		instr = self._read()
-		instrToken = token.InstructionType.get(instr)
-
-		if instrToken is None:
-			return token.Token(token.ILLEGAL)
-
-		return token.Token(instrToken)
-
-	def _read(self):
-		token = ''
-
-		while not self._isWhitespace():
-			token += self.char
-			self._readChar()
-
-		return token
-
-	def _readChar(self):
-		if len(self.source) <= self.readPosition:
-			self.char = token.EOF
-		else:
-			self.char = self.source[self.readPosition]
-			self.readPosition += 1
-
-	def _peekChar(self):
-		if len(self.source) <= self.readPosition:
-			return token.EOF
-		else:
-			return self.source[self.readPosition]
+		while not self.file.char().isspace() and self.file.char() != ',':
+			str += self.file.char()
+			self.file.read_char()
+		return str

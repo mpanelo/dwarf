@@ -1,10 +1,12 @@
 import argparse
-from .lexer import Lexer
+from .lexer import Lexer, File
 
 
 def main():
 	args = _parse_args()
-	lexer = Lexer(args.filename)
+	file = File(args.filename)
+	lexer = Lexer(file)
+
 	for token in lexer.tokenize():
 		print(token)
 
