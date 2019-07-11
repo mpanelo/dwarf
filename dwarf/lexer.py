@@ -10,9 +10,7 @@ class Lexer(object):
 		tokens = []
 
 		while not self.file.is_closed():
-			token = self.next_token()
-			print(token)
-			tokens.append(token)
+			tokens.append(self.next_token())
 
 		return tokens
 
