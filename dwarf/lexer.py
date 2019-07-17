@@ -39,9 +39,8 @@ class Lexer(object):
             self.file.read_char()
 
     def instruction_token(self):
-        str = self.read()
-        instr = token.get_instruction(str)
-        return token.Token(instr, str)
+        instr = self.read()
+        return token.Token(token.INSTRUCTION, instr)
 
     def read(self):
         str = ''
