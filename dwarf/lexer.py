@@ -6,14 +6,6 @@ class Lexer(object):
     def __init__(self, file):
         self.file = file
 
-    def tokenize(self):
-        tokens = []
-
-        while not self.file.is_closed():
-            tokens.append(self.next_token())
-
-        return tokens
-
     def next_token(self):
         self.skip_whitespace()
 
