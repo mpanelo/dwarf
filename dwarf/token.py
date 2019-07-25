@@ -17,7 +17,7 @@ REG3 = '$r3'
 REG4 = '$r4'
 REG5 = '$r5'
 REG6 = '$r6'
-REG_ACC = '$acc'
+REG7 = '$r7'
 
 
 class Token(object):

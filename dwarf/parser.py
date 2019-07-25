@@ -8,7 +8,7 @@ I_FORMAT = 'I'
 INSTRUCTIONS = set([token.LUI, token.ORI, token.LB, token.PUSH])
 REGISTERS = set([
     token.REG0, token.REG1, token.REG2, token.REG3, token.REG4, token.REG5,
-    token.REG6, token.REG_ACC
+    token.REG6, token.REG7
 ])
 
 INSTRUCTION_FORMAT = {
