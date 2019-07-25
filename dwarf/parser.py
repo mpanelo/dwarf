@@ -48,7 +48,7 @@ class Parser(object):
     def parse_rformat_statement(self, instr_token):
         reg_token = self.lexer.next_token()
         self.assert_token(token.REGISTER, reg_token)
-        return ast.RFormatStatement(instr_token, reg_token)
+        return ast.RTypeInstruction(instr_token, reg_token)
 
     def parse_iformat_statement(self, instr_token):
         reg_token = self.lexer.next_token()
@@ -60,7 +60,7 @@ class Parser(object):
         binary_token = self.lexer.next_token()
         self.assert_token(token.BINARY, binary_token)
 
-        return ast.IFormatStatement(instr_token, reg_token, binary_token)
+        return ast.ITypeInstruction(instr_token, reg_token, binary_token)
 
     def assert_token(self, expected_token_type, actual_token):
         self.assert_token_type(expected_token_type, actual_token.type)
