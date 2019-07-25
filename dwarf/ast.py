@@ -1,15 +1,15 @@
 class Program(object):
     def __init__(self):
-        self.statements = []
+        self.instructions = []
 
     def __str__(self):
         s = 'Program:\n'
-        for statement in self.statements:
-            s += '\t{}\n'.format(statement)
+        for instruction in self.instructions:
+            s += '\t{}\n'.format(instruction)
         return s
 
-    def append(self, statement):
-        self.statements.append(statement)
+    def append(self, instruction):
+        self.instructions.append(instruction)
 
 
 class RFormatStatement(object):
