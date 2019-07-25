@@ -8,6 +8,7 @@ EOF = 'EOF'
 LUI = 'lui'
 ORI = 'ori'
 LB = 'lb'
+PUSH = 'push'
 
 REG0 = '$r0'
 REG1 = '$r1'
