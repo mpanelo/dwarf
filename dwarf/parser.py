@@ -1,6 +1,5 @@
 from . import ast
 from . import token
-from . import instruction
 
 R_FORMAT = 'R'
 I_FORMAT = 'I'
