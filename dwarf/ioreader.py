@@ -1,6 +1,11 @@
 class IOReader(object):
     EOF = 'EOF'
 
+    @classmethod
+    def from_file(cls, filename):
+        with open(filename) as f:
+            return cls(f.read())
+
     def __init__(self, data):
         self.data = data.strip()
         self.pos = 0

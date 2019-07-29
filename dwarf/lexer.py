@@ -1,10 +1,9 @@
 from . import token
-from .ioreader import IOReader
 
 
 class Lexer(object):
-    def __init__(self, data):
-        self.ioreader = IOReader(data)
+    def __init__(self, ioreader):
+        self.ioreader = ioreader
 
     def next_token(self):
         self.skip_whitespace()

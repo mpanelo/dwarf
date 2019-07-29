@@ -1,6 +1,7 @@
 import argparse
 from .lexer import Lexer
 from .parser import Parser
+from .ioreader import IOReader
 
 
 def main():
@@ -12,10 +13,8 @@ def main():
 
 
 def emulate_file(filename):
-    with open(filename) as f:
-        data = f.read()
-
-    lexer = Lexer(data)
+    ioreader = IOReader.from_file(filename)
+    lexer = Lexer(ioreader)
     parser = Parser(lexer)
     print(parser.parse_program())
 
@@ -23,8 +22,8 @@ def emulate_file(filename):
 def emulate_stdin():
     while True:
         data = input(">> ")
-
-        lexer = Lexer(data)
+        ioreader = IOReader(data)
+        lexer = Lexer(ioreader)
         parser = Parser(lexer)
         print(parser.parse_program())
 
