@@ -1,21 +1,39 @@
 import argparse
-from .file import File
 from .lexer import Lexer
 from .parser import Parser
 
 
 def main():
-    args = _parse_args()
-    file = File(args.filename)
-    lexer = Lexer(file)
+    args = parse_args()
+    if args.repl:
+        emulate_stdin()
+    else:
+        emulate_file(args.filename)
+
+
+def emulate_file(filename):
+    with open(filename) as f:
+        data = f.read()
+
+    lexer = Lexer(data)
     parser = Parser(lexer)
-    program = parser.parse_program()
-    print(program)
+    print(parser.parse_program())
 
 
-def _parse_args():
+def emulate_stdin():
+    while True:
+        data = input(">> ")
+
+        lexer = Lexer(data)
+        parser = Parser(lexer)
+        print(parser.parse_program())
+
+
+def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('filename')
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('--file', dest='filename')
+    group.add_argument('--repl', action='store_true')
     return parser.parse_args()
 
 

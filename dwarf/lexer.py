@@ -1,43 +1,50 @@
 from . import token
-from .file import File
+from .ioreader import IOReader
 
 
 class Lexer(object):
-    def __init__(self, file):
-        self.file = file
+    def __init__(self, data):
+        self.ioreader = IOReader(data)
 
     def next_token(self):
         self.skip_whitespace()
 
-        if self.file.char() == '$':
+        if self.ioreader.char() == '$':
             tok = token.Token(token.REGISTER, self.read())
-        elif self.file.char() == '0' and self.file.peek_char() == 'b':
+        elif self.ioreader.char() == '0' and self.ioreader.peek_char() == 'b':
             tok = token.Token(token.BINARY, self.read())
-        elif self.file.char() == ',':
-            tok = token.Token(token.COMMA, self.file.char())
-            self.file.read_char()
-        elif self.file.char() == File.EOF:
-            tok = token.Token(token.EOF, self.file.char())
-        elif self.file.char().isalpha():
+        elif self.ioreader.char() == ',':
+            tok = token.Token(token.COMMA, self.ioreader.char())
+            self.ioreader.read_char()
+        elif self.ioreader.end_of_file():
+            tok = token.Token(token.EOF, self.ioreader.char())
+        elif self.ioreader.char().isalpha():
             tok = self.instruction_token()
         else:
-            tok = token.Token(token.ILLEGAL, self.file.char())
-            self.file.read_char()
+            tok = token.Token(token.ILLEGAL, self.ioreader.char())
+            self.ioreader.read_char()
 
         return tok
 
     def skip_whitespace(self):
-        while self.file.char().isspace():
-            self.file.read_char()
+        while self.ioreader.char().isspace():
+            self.ioreader.read_char()
 
     def instruction_token(self):
         instr = self.read()
         return token.Token(token.INSTRUCTION, instr)
 
     def read(self):
-        str = ''
+        instr = ''
 
-        while not self.file.char().isspace() and self.file.char() != ',':
-            str += self.file.char()
-            self.file.read_char()
-        return str
+        while self._is_valid_instr_char():
+            instr += self.ioreader.char()
+            self.ioreader.read_char()
+
+        # TODO validate that instr is actually an instruction
+        return instr
+
+    def _is_valid_instr_char(self):
+        return not (self.ioreader.char().isspace()
+                    or self.ioreader.end_of_file()
+                    or self.ioreader.char() == ',')
