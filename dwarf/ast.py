@@ -52,9 +52,8 @@ class ITypeInstruction(Instruction):
         token.ORI: ORI,
     }
 
-    def __init__(self, instr_token, reg_token, bin_token):
+    def __init__(self, instr_token, bin_token):
         super().__init__(instr_token)
-        self.register = Register(reg_token)
         self.binary = Binary(bin_token)
 
     def __str__(self):
