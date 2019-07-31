@@ -11,50 +11,49 @@ class Program(object):
             s += '\t{}\n'.format(instruction)
         return s
 
+    def __iter__(self):
+        yield from self.instructions
+
     def append(self, instruction):
         self.instructions.append(instruction)
 
 
 class Instruction(object):
+    RType = 0
+    IType = 2
+
     def __init__(self, instr_token):
         self.instr_token = instr_token
 
     @property
-    def id(self):
-        if hasattr(self, 'INSTR_ID'):
-            return self.INSTR_ID[self.instr_token.literal]
-        raise RuntimeError("INSTR_ID attribute is not set!")
+    def name(self):
+        return self.instr_token.literal
+
+    def accept(self, visitor):
+        visitor.visit(self)
 
 
 class RTypeInstruction(Instruction):
-    LB = 0
-    PUSH = 1
-
-    INSTR_ID = {
-        token.LB: LB,
-        token.PUSH: PUSH,
-    }
-
     def __init__(self, instr_token, reg_token):
         super().__init__(instr_token)
         self.register = Register(reg_token)
+
+    @property
+    def register_dest(self):
+        return self.register.id
 
     def __str__(self):
         return "{:<5} {:<7}".format(self.instr_token.literal, self.register)
 
 
 class ITypeInstruction(Instruction):
-    ORI = 2
-    LUI = 3
-
-    INSTR_ID = {
-        token.LUI: LUI,
-        token.ORI: ORI,
-    }
-
     def __init__(self, instr_token, bin_token):
         super().__init__(instr_token)
         self.binary = Binary(bin_token)
+
+    @property
+    def immediate(self):
+        return self.binary.as_int
 
     def __str__(self):
         return "{:<5} {:<7}, {:<7}".format(self.instr_token.literal,

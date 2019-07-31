@@ -2,6 +2,7 @@ import argparse
 from .lexer import Lexer
 from .parser import Parser
 from .ioreader import IOReader
+from . import emulator
 
 
 def main():
@@ -16,7 +17,7 @@ def emulate_file(filename):
     ioreader = IOReader.from_file(filename)
     lexer = Lexer(ioreader)
     parser = Parser(lexer)
-    print(parser.parse_program())
+    emulator.emulate(parser.parse_program())
 
 
 def emulate_stdin():
