@@ -44,6 +44,5 @@ class Lexer(object):
         return instr
 
     def _is_valid_instr_char(self):
-        return not (self.ioreader.char().isspace()
-                    or self.ioreader.end_of_file()
-                    or self.ioreader.char() == ',')
+        return not (self.ioreader.char().isspace() or
+                    self.ioreader.end_of_file() or self.ioreader.char() == ',')
