@@ -4,7 +4,8 @@ from . import token
 R_FORMAT = 'R'
 I_FORMAT = 'I'
 
-INSTRUCTIONS = set([token.LUI, token.ORI, token.LB, token.PUSH])
+INSTRUCTIONS = set([token.LUI, token.ORI, token.LB,
+                    token.PUSH, token.SB, token.ADD])
 REGISTERS = set([
     token.REG0, token.REG1, token.REG2, token.REG3, token.REG4, token.REG5,
     token.REG6, token.REG7
@@ -15,6 +16,8 @@ INSTRUCTION_FORMAT = {
     token.ORI: I_FORMAT,
     token.LB: R_FORMAT,
     token.PUSH: R_FORMAT,
+    token.ADD: R_FORMAT,
+    token.SB: R_FORMAT,
 }
 
 

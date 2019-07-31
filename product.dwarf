@@ -1,9 +1,21 @@
-lui $r0, 0b0000
-ori $r0, 0b0001
 push $r0
-lb $r0
+lui 0b0000
+push $r0
+ori 0b0001
 
-lui $r1, 0b0000
-ori $r1, 0b0010
 push $r1
-lb $r1
+lui 0b0000
+push $r1
+ori 0b0001
+
+push $r0
+push $r1
+add $r3
+
+push $r2
+lui 0b0000
+push $r2
+ori 0b0001
+
+push $r2
+sb $r3
