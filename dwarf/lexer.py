@@ -36,13 +36,15 @@ class Lexer(object):
     def _read(self):
         instr = ''
 
-        while self._is_valid_instr_char():
+        while self._can_consume_char():
             instr += self.ioreader.char()
             self.ioreader.read_char()
 
         # TODO validate that instr is actually an instruction
         return instr
 
-    def _is_valid_instr_char(self):
-        return not (self.ioreader.char().isspace()
-                    or self.ioreader.end_of_file() or self.ioreader.char() == ',')
+    def _can_consume_char(self):
+        current_char = self.ioreader.char()
+        return not (current_char.isspace()
+                    or current_char == ','
+                    or self.ioreader.end_of_file())
