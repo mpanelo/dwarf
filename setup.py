@@ -16,6 +16,7 @@ setup(
     author='Mauricio Panelo Jr',
     author_email='mpanelojr@gmail.com',
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+    test_suite="tests",
     entry_points={
         'console_scripts': [
             'dwarf=dwarf.__main__:main',
