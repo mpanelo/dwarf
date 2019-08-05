@@ -6,34 +6,34 @@ class Lexer(object):
         self.ioreader = ioreader
 
     def next_token(self):
-        self.skip_whitespace()
+        self._skip_whitespace()
 
         if self.ioreader.char() == '$':
-            tok = token.Token(token.REGISTER, self.read())
+            tok = token.Token(token.REGISTER, self._read())
         elif self.ioreader.char() == '0' and self.ioreader.peek_char() == 'b':
-            tok = token.Token(token.BINARY, self.read())
+            tok = token.Token(token.BINARY, self._read())
         elif self.ioreader.char() == ',':
             tok = token.Token(token.COMMA, self.ioreader.char())
             self.ioreader.read_char()
         elif self.ioreader.end_of_file():
             tok = token.Token(token.EOF, self.ioreader.char())
         elif self.ioreader.char().isalpha():
-            tok = self.instruction_token()
+            tok = self._instruction_token()
         else:
             tok = token.Token(token.ILLEGAL, self.ioreader.char())
             self.ioreader.read_char()
 
         return tok
 
-    def skip_whitespace(self):
+    def _skip_whitespace(self):
         while self.ioreader.char().isspace():
             self.ioreader.read_char()
 
-    def instruction_token(self):
-        instr = self.read()
+    def _instruction_token(self):
+        instr = self._read()
         return token.Token(token.INSTRUCTION, instr)
 
-    def read(self):
+    def _read(self):
         instr = ''
 
         while self._is_valid_instr_char():
@@ -44,5 +44,5 @@ class Lexer(object):
         return instr
 
     def _is_valid_instr_char(self):
-        return not (self.ioreader.char().isspace() or
-                    self.ioreader.end_of_file() or self.ioreader.char() == ',')
+        return not (self.ioreader.char().isspace()
+                    or self.ioreader.end_of_file() or self.ioreader.char() == ',')
