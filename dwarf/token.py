@@ -29,3 +29,6 @@ class Token(object):
 
     def __str__(self):
         return "Token({}, {})".format(self.type, self.literal)
+
+    def __eq__(self, other):
+        return self.type == other.type and self.literal == other.literal
