@@ -1,5 +1,5 @@
-from . import ast
-from . import token
+from dwarf.lex import token
+from dwarf.parse import ast
 
 R_FORMAT = 'R'
 I_FORMAT = 'I'

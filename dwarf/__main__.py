@@ -1,8 +1,8 @@
 import argparse
-from .lexer import Lexer
-from .parser import Parser
-from .ioreader import IOReader
-from . import emulator
+from dwarf.lex.ioreader import IOReader
+from dwarf.lex.lexer import Lexer
+from dwarf.parse.parser import Parser
+from dwarf import emulator
 
 
 def main():

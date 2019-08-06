@@ -1,4 +1,4 @@
-from . import token
+from dwarf.lex import token
 
 
 class Program(object):
