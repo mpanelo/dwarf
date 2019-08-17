@@ -1,4 +1,4 @@
-from . import token
+from dwarf.lex import token
 
 
 class Lexer(object):
@@ -18,7 +18,7 @@ class Lexer(object):
         elif self.ioreader.end_of_file():
             tok = token.Token(token.EOF, self.ioreader.char())
         elif self.ioreader.char().isalpha():
-            tok = self._instruction_token()
+            tok = token.Token(token.INSTRUCTION, self._read())
         else:
             tok = token.Token(token.ILLEGAL, self.ioreader.char())
             self.ioreader.read_char()
@@ -29,19 +29,19 @@ class Lexer(object):
         while self.ioreader.char().isspace():
             self.ioreader.read_char()
 
-    def _instruction_token(self):
-        instr = self._read()
-        return token.Token(token.INSTRUCTION, instr)
+    def _read_once(self):
+        char = self.ioreader.char()
+        self.ioreader.read_char()
+        return char
 
     def _read(self):
-        instr = ''
+        string = ''
 
         while self._can_consume_char():
-            instr += self.ioreader.char()
+            string += self.ioreader.char()
             self.ioreader.read_char()
 
-        # TODO validate that instr is actually an instruction
-        return instr
+        return string
 
     def _can_consume_char(self):
         current_char = self.ioreader.char()
