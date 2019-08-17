@@ -1,7 +1,7 @@
 import unittest
-from dwarf.lexer import Lexer
-from dwarf.ioreader import IOReader
-from dwarf import token
+from dwarf.lex.lexer import Lexer
+from dwarf.lex.ioreader import IOReader
+from dwarf.lex import token
 
 
 class LexerTestCase(unittest.TestCase):

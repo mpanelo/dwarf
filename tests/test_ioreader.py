@@ -1,5 +1,5 @@
 import unittest
-from dwarf.ioreader import IOReader
+from dwarf.lex.ioreader import IOReader
 
 
 class IOReaderTestCase(unittest.TestCase):
