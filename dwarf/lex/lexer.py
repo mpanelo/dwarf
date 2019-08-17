@@ -45,6 +45,5 @@ class Lexer(object):
 
     def _can_consume_char(self):
         current_char = self.ioreader.char()
-        return not (current_char.isspace()
-                    or current_char == ','
+        return not (current_char.isspace() or current_char == ','
                     or self.ioreader.end_of_file())

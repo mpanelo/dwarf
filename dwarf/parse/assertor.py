@@ -1,7 +1,6 @@
 from dwarf.lex import token
 from dwarf.parser.error import ParseError
 
-
 INSTRUCTIONS = set(
     [token.LUI, token.ORI, token.LB, token.PUSH, token.SB, token.ADD])
 
