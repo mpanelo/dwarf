@@ -56,8 +56,7 @@ class ITypeInstruction(Instruction):
         return self.binary.as_int
 
     def __str__(self):
-        return "{:<5} {:<7}, {:<7}".format(self.instr_token.literal,
-                                           self.register, self.binary)
+        return "{:<5} {:<7}".format(self.instr_token.literal, self.binary)
 
 
 class Register(object):
